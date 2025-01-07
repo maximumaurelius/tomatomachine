@@ -21,21 +21,16 @@
             <div class="progress" id="progress"></div>
         </div>
         <div class="mobile-controls-container">
-            <div class="controls-wrapper">
-                <!-- Page 1 -->
-                <div class="controls controls-page active">
-                    <button onclick="startTimer()">Start</button>
-                    <button onclick="pauseTimer()">Pause</button>
-                    <button onclick="resetTimer()">Reset</button>
-                </div>
-                <!-- Page 2 -->
-                <div class="controls controls-page">
-                    <button onclick="showSettingsPopup()">Settings</button>
-                    <button onclick="setTime(5)">Short Break</button>
-                    <button onclick="setTime(15)">Long Break</button>
-                </div>
+            <div class="primary-controls active">
+                <button class="control-button" onclick="startTimer()">Start</button>
+                <button class="control-button" onclick="pauseTimer()">Pause</button>
+                <button class="control-button" onclick="resetTimer()">Reset</button>
             </div>
-            <!-- Add page dots for mobile -->
+            <div class="secondary-controls">
+                <button class="control-button" onclick="showSettingsPopup()">Settings</button>
+                <button class="control-button" onclick="setTime(5)">Short Break</button>
+                <button class="control-button" onclick="setTime(15)">Long Break</button>
+            </div>
             <div class="page-dots">
                 <span class="dot active"></span>
                 <span class="dot"></span>

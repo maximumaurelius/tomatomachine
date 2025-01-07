@@ -15,6 +15,7 @@ let isDarkTheme = true;
 let touchStartX = 0;
 let touchEndX = 0;
 let currentPage = 0;
+let currentTheme = localStorage.getItem('theme') || 'light';
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -256,8 +257,22 @@ function initializeTheme() {
 }
 
 function toggleTheme() {
-    const newTheme = isDarkTheme ? 'light' : 'dark';
-    setTheme(newTheme);
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    
+    // Cycle through themes: light -> dark -> rainforest -> light
+    if (!document.body.className || document.body.className === 'theme-light') {
+        document.body.className = 'theme-dark';
+        themeIcon.textContent = '🌙';
+    } else if (document.body.className === 'theme-dark') {
+        document.body.className = 'theme-rainforest';
+        themeIcon.textContent = '🌳';
+    } else {
+        document.body.className = 'theme-light';
+        themeIcon.textContent = '☀️';
+    }
+    
+    localStorage.setItem('theme', document.body.className);
 }
 
 function setTheme(theme) {
@@ -277,46 +292,63 @@ document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 initializeTheme(); 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const controlsWrapper = document.querySelector('.controls-wrapper');
-    const pages = document.querySelectorAll('.controls-page');
+    const savedTheme = localStorage.getItem('theme') || 'theme-light';
+    document.body.className = savedTheme;
+    
+    const themeIcon = document.querySelector('.theme-icon');
+    if (savedTheme === 'theme-dark') {
+        themeIcon.textContent = '🌙';
+    } else if (savedTheme === 'theme-rainforest') {
+        themeIcon.textContent = '🌳';
+    } else {
+        themeIcon.textContent = '☀️';
+    }
+
+    const primaryControls = document.querySelector('.primary-controls');
+    const secondaryControls = document.querySelector('.secondary-controls');
     const dots = document.querySelectorAll('.dot');
 
-    // Touch events for mobile swipe
-    controlsWrapper.addEventListener('touchstart', e => {
+    // Handle dot clicks
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => switchPage(index));
+    });
+
+    // Touch handling for swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', e => {
         touchStartX = e.changedTouches[0].screenX;
     });
 
-    controlsWrapper.addEventListener('touchend', e => {
+    document.addEventListener('touchend', e => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
     });
 
     function handleSwipe() {
-        const swipeThreshold = 50; // minimum distance for swipe
+        const swipeThreshold = 50;
         const diff = touchStartX - touchEndX;
 
         if (Math.abs(diff) < swipeThreshold) return;
 
         if (diff > 0 && currentPage === 0) {
-            // Swipe left
-            switchPage(1);
+            switchPage(1); // Swipe left
         } else if (diff < 0 && currentPage === 1) {
-            // Swipe right
-            switchPage(0);
+            switchPage(0); // Swipe right
         }
     }
 
     function switchPage(pageIndex) {
-        pages.forEach(page => page.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
-        
-        pages[pageIndex].classList.add('active');
-        dots[pageIndex].classList.add('active');
         currentPage = pageIndex;
+        
+        // Update controls visibility
+        primaryControls.classList.toggle('active', pageIndex === 0);
+        secondaryControls.classList.toggle('active', pageIndex === 1);
+        
+        // Update dots
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === pageIndex);
+        });
     }
-
-    // Add click handlers for dots
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => switchPage(index));
-    });
 }); 
