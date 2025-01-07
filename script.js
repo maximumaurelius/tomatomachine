@@ -12,6 +12,9 @@ let pomodoroLength = 25;
 let shortBreakLength = 5;
 let longBreakLength = 15;
 let isDarkTheme = true;
+let touchStartX = 0;
+let touchEndX = 0;
+let currentPage = 0;
 
 function updateDisplay() {
     const minutes = Math.floor(timeLeft / 60);
@@ -272,3 +275,48 @@ updateDisplay();
 
 document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
 initializeTheme(); 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const controlsWrapper = document.querySelector('.controls-wrapper');
+    const pages = document.querySelectorAll('.controls-page');
+    const dots = document.querySelectorAll('.dot');
+
+    // Touch events for mobile swipe
+    controlsWrapper.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+
+    controlsWrapper.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    function handleSwipe() {
+        const swipeThreshold = 50; // minimum distance for swipe
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) < swipeThreshold) return;
+
+        if (diff > 0 && currentPage === 0) {
+            // Swipe left
+            switchPage(1);
+        } else if (diff < 0 && currentPage === 1) {
+            // Swipe right
+            switchPage(0);
+        }
+    }
+
+    function switchPage(pageIndex) {
+        pages.forEach(page => page.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        pages[pageIndex].classList.add('active');
+        dots[pageIndex].classList.add('active');
+        currentPage = pageIndex;
+    }
+
+    // Add click handlers for dots
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => switchPage(index));
+    });
+}); 

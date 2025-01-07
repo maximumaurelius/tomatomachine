@@ -20,20 +20,31 @@
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
         </div>
-        <div class="controls">
-            <button onclick="startTimer()">Start</button>
-            <button onclick="pauseTimer()">Pause</button>
-            <button onclick="resetTimer()">Reset</button>
-        </div>
-        <div class="mode">
-            <button onclick="showSettingsPopup()">Settings</button>
-            <button onclick="setTime(5)">Short Break</button>
-            <button onclick="setTime(15)">Long Break</button>
+        <div class="mobile-controls-container">
+            <div class="controls-wrapper">
+                <!-- Page 1 -->
+                <div class="controls controls-page active">
+                    <button onclick="startTimer()">Start</button>
+                    <button onclick="pauseTimer()">Pause</button>
+                    <button onclick="resetTimer()">Reset</button>
+                </div>
+                <!-- Page 2 -->
+                <div class="controls controls-page">
+                    <button onclick="showSettingsPopup()">Settings</button>
+                    <button onclick="setTime(5)">Short Break</button>
+                    <button onclick="setTime(15)">Long Break</button>
+                </div>
+            </div>
+            <!-- Add page dots for mobile -->
+            <div class="page-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+            </div>
         </div>
         <div class="sessions">Sessions completed: <span id="sessions">0</span></div>
         <div class="progress-text-container">
             <div class="progress-text" id="progress-text">0%</div>
-            <img src="https://media.tenor.com/lNtmoshuUI8AAAAi/corgi-cute.gif" alt="spinning dog" class="spinning-dog hidden" id="spinning-dog">
+            <img src="https://media.giphy.com/media/l0EQhAiNw3JDCz6kHq/giphy.gif" alt="dancing gif" class="spinning-dog hidden" id="spinning-dog">
             <div class="celebration hidden" id="celebration">🎉</div>
         </div>
     </div>
