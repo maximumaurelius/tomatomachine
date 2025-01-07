@@ -87,7 +87,7 @@ body {
 /* Timer container */
 .timer-container {
     background-color: var(--container-bg);
-    padding: 2.5rem;
+    padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -456,6 +456,66 @@ body {
         height: 100vh; /* Force full height */
         width: 100vw; /* Force full width */
         overflow-x: hidden; /* Prevent horizontal scrolling */
+    }
+}
+
+/* Adjust spacing for mobile */
+@media screen and (max-width: 768px) {
+    .timer-container {
+        padding: 1.5rem;
+        width: 85%;
+    }
+
+    .bava-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .time {
+        font-size: 3.5rem;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .progress-bar {
+        margin-bottom: 1.5rem;
+    }
+
+    .mobile-controls-container {
+        margin-bottom: 1.5rem;
+    }
+
+    .current-task {
+        margin-bottom: 1.5rem;
+        font-size: 1rem;
+    }
+
+    /* Fix rainforest background */
+    body.theme-rainforest {
+        background: linear-gradient(
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0.2)
+        ), url('https://media.giphy.com/media/61ShberAJ0dwfREl9x/giphy.gif') center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        height: -webkit-fill-available; /* For iOS Safari */
+    }
+
+    /* Ensure the page takes up full height but prevents scrolling */
+    body {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
+        overflow: hidden;
+    }
+
+    html {
+        height: -webkit-fill-available;
+    }
+
+    /* Adjust control buttons for better fit */
+    .control-button {
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
     }
 }
  
